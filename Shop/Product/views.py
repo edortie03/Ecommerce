@@ -23,14 +23,15 @@ def product_detail(request, id, slug):
 def product_search(request):
 	query = request.GET.get('q')
 	products = Product.objects.filter(name__icontains=query) if query else []
-	return render(request, 'shop/product/search.html', {'products': products, 'query': query})
+	categories = Category.objects.all()
+	return render(request, 'shop/product/search.html', {'products': products, 'query': query, 'categories': categories})
 
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('Product:contact_success')
+            return render(request, 'shop/product/contact.html', {'form': ContactForm(), 'success': True})
     else:
         form = ContactForm()
     return render(request, 'shop/product/contact.html', {'form': form})
