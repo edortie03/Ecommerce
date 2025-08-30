@@ -1,26 +1,137 @@
 {% extends "shop/base.html" %}
- {% load static %}
+{% load static %}
 
- {% block title %}
-  {{ product.name }}
- {% endblock %}
+{% block title %}
+ {{ product.name }}
+{% endblock %}
 
- {% block content %}
-  <div class="product-detail">
-    <img src="{% if product.image %}{{ product.image.url }}{% else %}
-    {% static 'img/no_image.png' %}{% endif %}">
-    <h1>{{ product.name }}</h1>
-    <h2>
-      <a href="{{ product.category.get_absolute_url }}">
-        {{ product.category }}
-      </a>
-    </h2>
-    <p class="price">${{ product.price }}</p>
-    <form action="{% url 'cart:cart_add' product.id %}" method="post">
-        {{ cart_product_form }}
-        {% csrf_token %}
-        <input type="submit" value="Add to cart">
-    </form>
-    {{ product.description|linebreaks }}
-  </div>
- {% endblock %}
+{% block content %}
+<div class="container">
+   <nav aria-label="breadcrumb" class="mb-4">
+       <ol class="breadcrumb glassmorphism p-3">
+           <li class="breadcrumb-item"><a href="{% url 'Product:product_list' %}">Products</a></li>
+           <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></li>
+           <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+       </ol>
+   </nav>
+
+   <div class="row">
+       <div class="col-lg-6 mb-4">
+           <div class="card glassmorphism">
+               <div class="card-body p-0">
+                   <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}"
+                        class="img-fluid rounded" alt="{{ product.name }}">
+               </div>
+           </div>
+       </div>
+
+       <div class="col-lg-6">
+           <div class="card glassmorphism">
+               <div class="card-header bg-primary text-white">
+                   <h1 class="h3 mb-0">{{ product.name }}</h1>
+               </div>
+               <div class="card-body">
+                   <div class="mb-3">
+                       <span class="badge bg-secondary">
+                           <a href="{{ product.category.get_absolute_url }}" class="text-decoration-none text-white">
+                               <i class="fas fa-tag"></i> {{ product.category }}
+                           </a>
+                       </span>
+                   </div>
+
+                   <div class="mb-4">
+                       <h2 class="text-primary fw-bold h1">${{ product.price }}</h2>
+                       {% if product.available %}
+                           <span class="badge bg-success"><i class="fas fa-check"></i> In Stock</span>
+                       {% else %}
+                           <span class="badge bg-danger"><i class="fas fa-times"></i> Out of Stock</span>
+                       {% endif %}
+                   </div>
+
+                   <div class="mb-4">
+                       <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-inline">
+                           {{ cart_product_form }}
+                           {% csrf_token %}
+                           <button type="submit" class="btn btn-primary btn-lg me-2" {% if not product.available %}disabled{% endif %}>
+                               <i class="fas fa-cart-plus"></i> Add to Cart
+                           </button>
+                       </form>
+                       <button class="btn btn-outline-primary btn-lg">
+                           <i class="fas fa-heart"></i> Add to Wishlist
+                       </button>
+                   </div>
+
+                   <div class="row text-center">
+                       <div class="col-4">
+                           <i class="fas fa-shipping-fast fa-2x text-primary mb-2"></i>
+                           <p class="small text-muted">Free Shipping</p>
+                       </div>
+                       <div class="col-4">
+                           <i class="fas fa-undo fa-2x text-primary mb-2"></i>
+                           <p class="small text-muted">30-Day Returns</p>
+                       </div>
+                       <div class="col-4">
+                           <i class="fas fa-shield-alt fa-2x text-primary mb-2"></i>
+                           <p class="small text-muted">Secure Payment</p>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <div class="row mt-4">
+       <div class="col-12">
+           <div class="card glassmorphism">
+               <div class="card-header bg-primary text-white">
+                   <h3 class="mb-0"><i class="fas fa-info-circle"></i> Product Description</h3>
+               </div>
+               <div class="card-body">
+                   {% if product.description %}
+                       <div class="product-description">
+                           {{ product.description|linebreaks }}
+                       </div>
+                   {% else %}
+                       <p class="text-muted">No description available for this product.</p>
+                   {% endif %}
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <div class="row mt-4">
+       <div class="col-12 text-center">
+           <a href="{% url 'Product:product_list' %}" class="btn btn-outline-primary me-2">
+               <i class="fas fa-arrow-left"></i> Continue Shopping
+           </a>
+           <a href="{{ product.category.get_absolute_url }}" class="btn btn-outline-secondary">
+               <i class="fas fa-tag"></i> More from {{ product.category }}
+           </a>
+       </div>
+   </div>
+</div>
+
+<style>
+.product-description {
+   line-height: 1.6;
+}
+
+.card {
+   border: none;
+   transition: transform 0.3s ease;
+}
+
+.card:hover {
+   transform: translateY(-2px);
+}
+
+.breadcrumb {
+   background: rgba(255, 255, 255, 0.1);
+   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn:disabled {
+   opacity: 0.6;
+}
+</style>
+{% endblock %}
