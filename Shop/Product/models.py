@@ -46,4 +46,16 @@ class Product(models.Model):
         return self.name
     def get_absolute_url(self):
         return reverse('Product:product_detail', args=[self.id, self.slug])
-        
+
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return f"Message from {self.name} ({self.email})"

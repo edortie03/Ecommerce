@@ -9,6 +9,13 @@
   <body>
     <div id="header">
       <a href="/" class="logo">Edortify</a>
+      <div class="search">
+        <form action="{% url 'Product:product_search' %}" method="get">
+          <input type="text" name="q" placeholder="Search products..." required>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <a href="{% url 'Product:contact' %}">Contact</a>
     </div>
     <div id="subheader">
       <div class="cart">
