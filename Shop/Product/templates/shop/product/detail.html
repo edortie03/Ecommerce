@@ -8,16 +8,16 @@
 {% block content %}
 <div class="container">
    <nav aria-label="breadcrumb" class="mb-4">
-       <ol class="breadcrumb glassmorphism p-3">
-           <li class="breadcrumb-item"><a href="{% url 'Product:product_list' %}">Products</a></li>
-           <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></li>
-           <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+       <ol class="breadcrumb surface-card p-3">
+           <li class="breadcrumb-item"><a href="{% url 'Product:product_list' %}" class="contact-text">Products</a></li>
+           <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}" class="contact-text">{{ product.category }}</a></li>
+           <li class="breadcrumb-item active contact-title" aria-current="page">{{ product.name }}</li>
        </ol>
    </nav>
 
    <div class="row">
        <div class="col-lg-6 mb-4">
-           <div class="card glassmorphism">
+           <div class="surface-card shadow-hover">
                <div class="card-body p-0">
                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}"
                         class="img-fluid rounded" alt="{{ product.name }}">
@@ -26,9 +26,9 @@
        </div>
 
        <div class="col-lg-6">
-           <div class="card glassmorphism">
-               <div class="card-header bg-primary text-white">
-                   <h1 class="h3 mb-0">{{ product.name }}</h1>
+           <div class="surface-card shadow-hover">
+               <div class="card-header">
+                   <h1 class="h3 mb-0 contact-title">{{ product.name }}</h1>
                </div>
                <div class="card-body">
                    <div class="mb-3">
@@ -64,15 +64,15 @@
                    <div class="row text-center">
                        <div class="col-4">
                            <i class="fas fa-shipping-fast fa-2x text-primary mb-2"></i>
-                           <p class="small text-muted">Free Shipping</p>
+                           <p class="small contact-text">Free Shipping</p>
                        </div>
                        <div class="col-4">
                            <i class="fas fa-undo fa-2x text-primary mb-2"></i>
-                           <p class="small text-muted">30-Day Returns</p>
+                           <p class="small contact-text">30-Day Returns</p>
                        </div>
                        <div class="col-4">
                            <i class="fas fa-shield-alt fa-2x text-primary mb-2"></i>
-                           <p class="small text-muted">Secure Payment</p>
+                           <p class="small contact-text">Secure Payment</p>
                        </div>
                    </div>
                </div>
@@ -82,17 +82,17 @@
 
    <div class="row mt-4">
        <div class="col-12">
-           <div class="card glassmorphism">
-               <div class="card-header bg-primary text-white">
-                   <h3 class="mb-0"><i class="fas fa-info-circle"></i> Product Description</h3>
+           <div class="surface-card shadow-hover">
+               <div class="card-header">
+                   <h3 class="mb-0 contact-title"><i class="fas fa-info-circle"></i> Product Description</h3>
                </div>
                <div class="card-body">
                    {% if product.description %}
-                       <div class="product-description">
+                       <div class="product-description contact-text">
                            {{ product.description|linebreaks }}
                        </div>
                    {% else %}
-                       <p class="text-muted">No description available for this product.</p>
+                       <p class="contact-text">No description available for this product.</p>
                    {% endif %}
                </div>
            </div>
@@ -113,25 +113,32 @@
 
 <style>
 .product-description {
-   line-height: 1.6;
+    line-height: 1.6;
 }
 
-.card {
-   border: none;
-   transition: transform 0.3s ease;
+.surface-card {
+    transition: transform 0.3s ease;
 }
 
-.card:hover {
-   transform: translateY(-2px);
+.surface-card:hover {
+    transform: translateY(-2px);
 }
 
 .breadcrumb {
-   background: rgba(255, 255, 255, 0.1);
-   border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn:disabled {
-   opacity: 0.6;
+    opacity: 0.6;
+}
+
+.card-img-container img {
+    transition: transform 0.3s ease;
+}
+
+.card-img-container:hover img {
+    transform: scale(1.05);
 }
 </style>
 {% endblock %}
