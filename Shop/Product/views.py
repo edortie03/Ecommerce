@@ -39,4 +39,6 @@ def contact(request):
             return render(request, 'shop/product/contact.html', {'form': ContactForm(), 'success': True})
     else:
         form = ContactForm()
+def about(request):
+    return render(request, 'shop/product/about.html')
     return render(request, 'shop/product/contact.html', {'form': form})
