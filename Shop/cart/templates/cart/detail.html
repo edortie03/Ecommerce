@@ -24,8 +24,7 @@
           <tr>
             <td>
               <a href="{{ product.get_absolute_url }}">
-                <img src="{% if product.image %}{{ product.image.url }}
-                {% else %}{% static 'img/no_image.png' %} {% endif %}">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}" style="width: 80px; height: 80px; object-fit: cover;">
               </a>
             </td>
             <td>{{ product.name }}</td>
@@ -44,7 +43,7 @@
                 </form>
             </td>
             <td class="num">${{ item.price }}</td>
-            <td ass="num">${{ item.total_price }}</td>
+            <td class="num">${{ item.total_price }}</td>
           </tr>
         {% endwith %}
       {% endfor %}
