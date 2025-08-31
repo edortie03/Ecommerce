@@ -9,80 +9,125 @@
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-dark: #0f172a;    /* Dark Blue - Main */
+            --primary-medium: #1e40af;  /* Medium Blue */
+            --primary-light: #3b82f6;   /* Light Blue */
+            --neutral-light: #f1f5f9;   /* Light Gray */
+            --neutral-dark: #374151;    /* Dark Gray */
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0a1429, #0b2a6f 45%, #0d47a1);
+            background: var(--neutral-light);
             min-height: 100vh;
-            color: #0f172a;
+            color: var(--neutral-dark);
+            line-height: 1.6;
         }
 
         .navbar {
-            background: linear-gradient(to right, #0b1e3a, #0a1a33);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--primary-dark);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .navbar-brand {
-            color: #0d6efd;
+            color: var(--primary-light) !important;
+            font-weight: 700;
         }
 
         .navbar-brand:hover {
-            color: #0b5ed7;
+            color: white !important;
         }
 
         .nav-link {
-            color: #cbd5e1;
+            color: white !important;
+            font-weight: 500;
         }
 
-        .nav-link:hover, .nav-link.active {
-            color: #93c5fd;
+        .nav-link:hover {
+            color: var(--primary-light) !important;
         }
 
-        /* Surface card */
-        .surface-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* Card styling */
+        .card {
+            background: white;
+            border: 1px solid #e2e8f0;
             border-radius: 12px;
-            backdrop-filter: blur(10px) saturate(140%);
-            -webkit-backdrop-filter: blur(10px) saturate(140%);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .shadow-hover {
-            transition: transform .25s ease, box-shadow .25s ease;
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
-        .shadow-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,.1);
+        .card-header {
+            background: var(--neutral-light);
+            border-bottom: 1px solid #e2e8f0;
+            border-radius: 12px 12px 0 0 !important;
         }
 
-        /* Contact specific */
-        .contact-title {
-            color: #e5e7eb;
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary-medium);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
 
-        .contact-text {
-            color: #c7d2fe;
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
         }
 
+        .btn-outline-primary {
+            border-color: var(--primary-light);
+            color: var(--primary-light);
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-light);
+        }
+
+        /* Form elements */
         .form-control {
-            border-radius: 6px;
-            border: 1px solid #cbd5e1;
-            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.95rem;
         }
 
         .form-control:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 .25rem rgba(13,110,253,.15);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+        }
+
+        /* Content wrapper */
+        .content-wrapper {
+            background: white;
+            border-radius: 12px;
+            margin: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            min-height: calc(100vh - 200px);
         }
 
         /* Footer */
         footer {
-            background: linear-gradient(to right, #0f172a, #111827);
+            background: var(--primary-dark);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 2rem;
         }
 
         footer h5 {
-            color: #ffffff;
+            color: white;
+            font-weight: 600;
         }
 
         footer p, footer a {
@@ -90,73 +135,44 @@
         }
 
         footer a:hover {
-            color: #0d6efd;
+            color: var(--primary-light);
         }
 
         .social-icons a {
+            color: #cbd5e1;
             font-size: 1.5rem;
             margin-right: 15px;
-            color: #cbd5e1;
             transition: color 0.3s ease;
         }
 
         .social-icons a:hover {
-            color: #0d6efd;
+            color: var(--primary-light);
         }
 
-        /* Buttons */
-        .btn-primary {
-            background: linear-gradient(to right, #0d6efd, #0b5ed7);
-            border: none;
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--primary-dark);
+            font-weight: 600;
         }
 
-        .btn-primary:hover {
-            background: linear-gradient(to right, #0b5ed7, #0949a6);
+        .text-primary { color: var(--primary-light) !important; }
+        .text-muted { color: #6b7280 !important; }
+
+        /* Utility classes */
+        .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
         }
 
-        /* Contrast overrides for text inside white cards */
-        .surface-card .contact-title {
-            color: #e5e7eb;
+        .border-0 {
+            border: none !important;
         }
 
-        .surface-card .contact-text {
-            color: #e2e8f0;
-        }
-
-        .surface-card a {
-            color: #93c5fd;
-        }
-
-        .surface-card a:hover {
-            color: #bfdbfe;
-        }
-
-        /* Content wrapper */
-        .content-wrapper {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Text colors for better contrast */
-        .text-primary { color: #0d6efd !important; }
-        .text-muted { color: #94a3b8 !important; }
-        .text-white { color: #ffffff !important; }
-
-        /* Card styling */
-        .card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .card-header {
-            background: rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                margin: 10px;
+                padding: 20px;
+            }
         }
     </style>
 </head>

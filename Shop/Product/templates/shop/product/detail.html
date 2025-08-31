@@ -7,108 +7,125 @@
 
 {% block content %}
 <div class="container">
-   <nav aria-label="breadcrumb" class="mb-4">
-       <ol class="breadcrumb surface-card p-3">
-           <li class="breadcrumb-item"><a href="{% url 'Product:product_list' %}" class="contact-text">Products</a></li>
-           <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}" class="contact-text">{{ product.category }}</a></li>
-           <li class="breadcrumb-item active contact-title" aria-current="page">{{ product.name }}</li>
-       </ol>
-   </nav>
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-light p-3 rounded">
+            <li class="breadcrumb-item"><a href="{% url 'Product:product_list' %}" class="text-decoration-none">Products</a></li>
+            <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}" class="text-decoration-none">{{ product.category }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+        </ol>
+    </nav>
 
-   <div class="row">
-       <div class="col-lg-6 mb-4">
-           <div class="surface-card shadow-hover">
-               <div class="card-body p-0">
-                   <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}"
-                        class="img-fluid rounded" alt="{{ product.name }}">
-               </div>
-           </div>
-       </div>
+    <div class="row g-4">
+        <!-- Product Image -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body p-0">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}"
+                         class="img-fluid rounded" alt="{{ product.name }}" style="width: 100%; max-height: 500px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
 
-       <div class="col-lg-6">
-           <div class="surface-card shadow-hover">
-               <div class="card-header">
-                   <h1 class="h3 mb-0 contact-title">{{ product.name }}</h1>
-               </div>
-               <div class="card-body">
-                   <div class="mb-3">
-                       <span class="badge bg-secondary">
-                           <a href="{{ product.category.get_absolute_url }}" class="text-decoration-none text-white">
-                               <i class="fas fa-tag"></i> {{ product.category }}
-                           </a>
-                       </span>
-                   </div>
+        <!-- Product Details -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="h3 mb-0">{{ product.name }}</h1>
+                </div>
+                <div class="card-body">
+                    <!-- Category Badge -->
+                    <div class="mb-3">
+                        <span class="badge bg-primary">
+                            <a href="{{ product.category.get_absolute_url }}" class="text-decoration-none text-white">
+                                <i class="fas fa-tag me-1"></i>{{ product.category }}
+                            </a>
+                        </span>
+                    </div>
 
-                   <div class="mb-4">
-                       <h2 class="text-primary fw-bold h1">${{ product.price }}</h2>
-                       {% if product.available %}
-                           <span class="badge bg-success"><i class="fas fa-check"></i> In Stock</span>
-                       {% else %}
-                           <span class="badge bg-danger"><i class="fas fa-times"></i> Out of Stock</span>
-                       {% endif %}
-                   </div>
+                    <!-- Price and Availability -->
+                    <div class="mb-4">
+                        <h2 class="text-primary fw-bold h1 mb-2">${{ product.price }}</h2>
+                        {% if product.available %}
+                            <span class="badge bg-success fs-6"><i class="fas fa-check me-1"></i>In Stock</span>
+                        {% else %}
+                            <span class="badge bg-danger fs-6"><i class="fas fa-times me-1"></i>Out of Stock</span>
+                        {% endif %}
+                    </div>
 
-                   <div class="mb-4">
-                       <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-inline">
-                           {{ cart_product_form }}
-                           {% csrf_token %}
-                           <button type="submit" class="btn btn-primary btn-lg me-2" {% if not product.available %}disabled{% endif %}>
-                               <i class="fas fa-cart-plus"></i> Add to Cart
-                           </button>
-                       </form>
-                       <button class="btn btn-outline-primary btn-lg">
-                           <i class="fas fa-heart"></i> Add to Wishlist
-                       </button>
-                   </div>
+                    <!-- Add to Cart Form -->
+                    <div class="mb-4">
+                        <form action="{% url 'cart:cart_add' product.id %}" method="post" class="mb-3">
+                            {{ cart_product_form }}
+                            {% csrf_token %}
+                            <div class="d-flex gap-2 mb-3">
+                                <button type="submit" class="btn btn-primary flex-grow-1" {% if not product.available %}disabled{% endif %}>
+                                    <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                </button>
+                                <button type="button" class="btn btn-outline-primary">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
-                   <div class="row text-center">
-                       <div class="col-4">
-                           <i class="fas fa-shipping-fast fa-2x text-primary mb-2"></i>
-                           <p class="small contact-text">Free Shipping</p>
-                       </div>
-                       <div class="col-4">
-                           <i class="fas fa-undo fa-2x text-primary mb-2"></i>
-                           <p class="small contact-text">30-Day Returns</p>
-                       </div>
-                       <div class="col-4">
-                           <i class="fas fa-shield-alt fa-2x text-primary mb-2"></i>
-                           <p class="small contact-text">Secure Payment</p>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </div>
+                    <!-- Features -->
+                    <div class="row text-center g-3">
+                        <div class="col-4">
+                            <div class="p-3 border rounded">
+                                <i class="fas fa-shipping-fast fa-2x text-primary mb-2"></i>
+                                <p class="small mb-0 fw-semibold">Free Shipping</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 border rounded">
+                                <i class="fas fa-undo fa-2x text-primary mb-2"></i>
+                                <p class="small mb-0 fw-semibold">30-Day Returns</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 border rounded">
+                                <i class="fas fa-shield-alt fa-2x text-primary mb-2"></i>
+                                <p class="small mb-0 fw-semibold">Secure Payment</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-   <div class="row mt-4">
-       <div class="col-12">
-           <div class="surface-card shadow-hover">
-               <div class="card-header">
-                   <h3 class="mb-0 contact-title"><i class="fas fa-info-circle"></i> Product Description</h3>
-               </div>
-               <div class="card-body">
-                   {% if product.description %}
-                       <div class="product-description contact-text">
-                           {{ product.description|linebreaks }}
-                       </div>
-                   {% else %}
-                       <p class="contact-text">No description available for this product.</p>
-                   {% endif %}
-               </div>
-           </div>
-       </div>
-   </div>
+    <!-- Product Description -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0"><i class="fas fa-info-circle me-2"></i>Product Description</h3>
+                </div>
+                <div class="card-body">
+                    {% if product.description %}
+                        <div class="fs-6 lh-base">
+                            {{ product.description|linebreaks }}
+                        </div>
+                    {% else %}
+                        <p class="text-muted mb-0">No description available for this product.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 
-   <div class="row mt-4">
-       <div class="col-12 text-center">
-           <a href="{% url 'Product:product_list' %}" class="btn btn-outline-primary me-2">
-               <i class="fas fa-arrow-left"></i> Continue Shopping
-           </a>
-           <a href="{{ product.category.get_absolute_url }}" class="btn btn-outline-secondary">
-               <i class="fas fa-tag"></i> More from {{ product.category }}
-           </a>
-       </div>
-   </div>
+    <!-- Action Buttons -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'Product:product_list' %}" class="btn btn-outline-primary me-3">
+                <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+            </a>
+            <a href="{{ product.category.get_absolute_url }}" class="btn btn-outline-secondary">
+                <i class="fas fa-tag me-2"></i>More from {{ product.category }}
+            </a>
+        </div>
+    </div>
 </div>
 
 <style>
