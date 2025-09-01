@@ -1,5 +1,8 @@
+import logging
 from django.db import models
 from django.urls import reverse
+
+logger = logging.getLogger(__name__)
 
 # Create your models here.
 
@@ -44,6 +47,11 @@ class Product(models.Model):
         ]
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        logger.info(f"Saving Product: {self.name} (ID: {self.id})")
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('Product:product_detail', args=[self.id, self.slug])
 
@@ -56,6 +64,10 @@ class ContactMessage(models.Model):
 
     class Meta:
         ordering = ['-created']
+
+    def save(self, *args, **kwargs):
+        logger.info(f"Saving ContactMessage: {self.name} (ID: {self.id})")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Message from {self.name} ({self.email})"
